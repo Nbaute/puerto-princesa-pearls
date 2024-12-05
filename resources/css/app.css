@@ -1,0 +1,58 @@
+@import "@fortawesome/fontawesome-free/css/all.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    @font-face {
+        font-family: "Open Sauce";
+        src: url("../../public/fonts/open-sauce/OpenSauceOne-Light.ttf");
+        font-weight: 300;
+    }
+    @font-face {
+        font-family: "Open Sauce";
+        src: url("../../public/fonts/open-sauce/OpenSauceOne-Regular.ttf");
+        font-weight: 400;
+    }
+    @font-face {
+        font-family: "Open Sauce";
+        src: url("../../public/fonts/open-sauce/OpenSauceOne-Bold.ttf");
+        font-weight: 500;
+    }
+    @font-face {
+        font-family: "Open Sauce";
+        src: url("../../public/fonts/open-sauce/OpenSauceOne-SemiBold.ttf");
+        font-weight: 600;
+    }
+    @font-face {
+        font-family: "Open Sauce";
+        src: url("../../public/fonts/open-sauce/OpenSauceOne-ExtraBold.ttf");
+        font-weight: 800;
+    }
+    @font-face {
+        font-family: "Open Sauce";
+        src: url("../../public/fonts/open-sauce/OpenSauceOne-Black.ttf");
+        font-weight: 900;
+    }
+}
+
+* {
+    font-family: "Open Sauce";
+}
+
+*:focus,
+input {
+    outline: none;
+}
+
+/* For all modern browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
