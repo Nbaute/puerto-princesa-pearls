@@ -44,7 +44,7 @@
                                 <i class="fa fa-times"></i>Cancel the order
                             </button>
                         @endif
-                        <a target="_blank" href="{{ $order->shop->link }}" wire:navigate
+                        <a target="_blank" href="{{ $order->shop->link }}"
                             class="text-black btn btn-white">
                             <i class="fa fa-comments"></i>Contact the seller
                         </a>

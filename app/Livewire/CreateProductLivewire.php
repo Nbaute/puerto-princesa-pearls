@@ -14,6 +14,7 @@ class CreateProductLivewire extends Component
     use MyCartTrait, WithFileUploads;
     public $product;
     public $name;
+    public $description;
     public $price;
     public $shop;
     public $categories = [];
@@ -35,12 +36,14 @@ class CreateProductLivewire extends Component
         $data = [];
         $data = $this->validate([
             'name' => 'required',
+            'description' => 'required',
             'price' => 'required|numeric|min:1',
             'productPicture' => 'image|max:9999'
         ]);
         $this->product = new Item();
         $this->product->shop_id = $this->shop->id;
         $this->product->name = $data['name'];
+        $this->product->description = $data['description'];
         $this->product->price = $data['price'];
         $this->product->save();
         if ($this->productPicture) {

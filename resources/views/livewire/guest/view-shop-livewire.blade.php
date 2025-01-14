@@ -86,7 +86,7 @@
                                         <div class="relative flex items-center">
                                             <textarea rows="3" wire:model="paymentInstructions" name="paymentInstructions" type="text" required
                                                 class="w-full px-4 py-3 text-sm  text-gray-500 !border-0 border-gray-300 rounded-md !ring-0 focus:!border-primary-600"
-                                                placeholder="Enter shop's payment instructions"></textarea>
+                                                placeholder="Enter shop's GCash #"></textarea>
                                             {{-- <i class="fa fa-shop"></i> --}}
                                         </div>
                                         @error('link')

@@ -19,7 +19,7 @@
                             puertoprincesapearls@gmail.com
                         </a>
                     </li>
-                    <li class="!hidden flex items-center">
+                    {{-- <li class="!hidden flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill='#fff'
                             viewBox="0 0 482.6 482.6">
                             <path
@@ -29,8 +29,8 @@
                         <a href="javascript:void(0)" class="ml-4 text-sm text-white">
                             +639xx xxx xxxx
                         </a>
-                    </li>
-                    <li class="!hidden flex items-center">
+                    </li> --}}
+                    {{-- <li class="!hidden flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill='#fff'
                             viewBox="0 0 368.16 368.16">
                             <path
@@ -43,7 +43,7 @@
                         <a href="javascript:void(0)" class="ml-4 text-sm text-white">
                             123 Street Barangay B, Puerto Princesa, Palawan
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
 
                 <ul class="flex mt-12 space-x-4">

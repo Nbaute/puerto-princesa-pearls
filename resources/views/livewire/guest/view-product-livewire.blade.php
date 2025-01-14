@@ -61,8 +61,8 @@
                     </div>
                 @else
                     <div>
-                        {{-- <label class="block mb-2 text-sm text-gray-800">Shop Name</label> --}}
-                        <div class="relative flex items-center py-4">
+                        <label class="block mb-2 text-sm text-gray-800">Price</label>
+                        <div class="relative flex items-center pb-4">
                             <input wire:model="price" name="price" type="number" required
                                 class="w-full px-4 py-3 text-xl  !border-0 border-gray-300 rounded-md !ring-0 focus:!border-primary-600"
                                 placeholder="Enter product's price" />
@@ -70,6 +70,18 @@
                         </div>
                         @error('price')
                             <span class="text-xs text-red-500">{{ $message ?? 'An error occurred' }}</span>
+                        @enderror
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm text-gray-800">Size Info</label>
+                        <div class="relative flex items-center pb-4">
+                            <input wire:model="description" name="description" type="text" required
+                                class="w-full px-4 py-3 text-xl  !border-0 border-gray-300 rounded-md !ring-0 focus:!border-primary-600"
+                                placeholder="Enter product's size info" />
+                            {{-- <i class="fa fa-shop"></i> --}}
+                        </div>
+                        @error('description')
+                            <span class="text-xs text-red-500">Size info error: {{ $message ?? 'An error occurred' }}</span>
                         @enderror
                     </div>
 

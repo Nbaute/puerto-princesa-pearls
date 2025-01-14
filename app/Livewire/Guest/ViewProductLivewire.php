@@ -21,6 +21,7 @@ class ViewProductLivewire extends AppComponent
     use FiltersTrait, MyCartTrait, WithFileUploads;
     public $product;
     public $name;
+    public $description;
     public $price;
     public $categories = [];
     public $productPicture;
@@ -36,6 +37,7 @@ class ViewProductLivewire extends AppComponent
 
 
             $this->name = $this->product->name;
+            $this->description = $this->product->description ?? '';
             $this->price = $this->product->price;
             $this->categories = [];
             $this->syncFilters();
@@ -58,18 +60,21 @@ class ViewProductLivewire extends AppComponent
         if ($this->productPicture) {
             $data = $this->validate([
                 'name' => 'required',
+                'description' => 'required',
                 'price' => 'required|numeric|min:1',
                 'productPicture' => 'image|max:9999'
             ]);
         } else {
             $data =  $this->validate([
                 'name' => 'required',
+                'description' => 'required',
                 'price' => 'required|numeric|min:1',
             ]);
         }
         try {
             DB::beginTransaction();
             $this->product->name = $data['name'];
+            $this->product->description = $data['description'];
             $this->product->price = $data['price'];
             $this->product->save();
             if ($this->productPicture) {

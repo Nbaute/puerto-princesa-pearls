@@ -20,7 +20,7 @@ class MyCartLivewire extends AppComponent
     public $subtotal = 0;
     public $shippingFee = 0;
     public $shippingOptions = [['text' => 'Courier', 'shippingFee' => 100]];
-    public $paymentMethods = ['GCash', 'Maya'];
+    public $paymentMethods = ['GCash'];
     public $doCheckout = false;
 
     public $name;
@@ -160,56 +160,57 @@ class MyCartLivewire extends AppComponent
 
                 ]
             );
+
+            try {
+                DB::beginTransaction();
+                $order = new Order();
+                do {
+                    $order->transaction_code =  strtoupper(Str::random(10)) . $order->id;
+                } while (Order::where('transaction_code', $order->transaction_code)->exists());
+                $order->user_id = $this->user->id;
+                $order->shop_id = $this->cartItems[0]->item->shop->id;
+                $order->shipping_method = $this->selectedShippingOption['text'];
+                $order->shipping_fee = $this->selectedShippingOption['shippingFee'];
+                $order->shipping_address = $this->address;
+                $order->shipping_status = "unpaid";
+                $order->billing_customer_name = $this->name ?? $this->user->name;
+                $order->billing_customer_phone = $this->phone ?? $this->user->phone;
+                $order->billing_customer_email = $this->email ?? $this->user->email;
+                $order->payment_method = $this->selectedPaymentMethod;
+                $order->payment_status = 'pending';
+                $order->sub_total = $this->subtotal;
+                $order->total = $this->subtotal + $order->shipping_fee;
+                $order->save();
+
+                foreach ($this->cartItems as $cartItem) {
+                    $orderItem = new OrderItem();
+                    $orderItem->order_id = $order->id;
+                    $orderItem->item_id = $cartItem->item_id;
+                    $orderItem->quantity = $cartItem->quantity;
+                    $orderItem->price = $cartItem->item->price;
+                    $orderItem->amount = $cartItem->item->price * $cartItem->quantity;
+                    $orderItem->save();
+                }
+
+                $orderPaymentStatus = new OrderPaymentStatus();
+                $orderPaymentStatus->order_id = $order->id;
+                $orderPaymentStatus->name = "pending";
+                $orderPaymentStatus->save();
+
+                $orderShippingStatus = new OrderShippingStatus();
+                $orderShippingStatus->order_id = $order->id;
+                $orderShippingStatus->name = "unpaid";
+                $orderShippingStatus->save();
+
+
+                DB::commit();
+                return $this->redirect("/orders/{$order->transaction_code}");
+            } catch (Throwable $t) {
+                DB::rollBack();
+                $this->errorAlert("An error occurred! {$t->getMessage()}");
+            }
         } catch (Throwable $t) {
             $this->errorAlert($t->getMessage());
-        }
-        try {
-            DB::beginTransaction();
-            $order = new Order();
-            do {
-                $order->transaction_code =  strtoupper(Str::random(10)) . $order->id;
-            } while (Order::where('transaction_code', $order->transaction_code)->exists());
-            $order->user_id = $this->user->id;
-            $order->shop_id = $this->cartItems[0]->item->shop->id;
-            $order->shipping_method = $this->selectedShippingOption['text'];
-            $order->shipping_fee = $this->selectedShippingOption['shippingFee'];
-            $order->shipping_address = $this->address;
-            $order->shipping_status = "unpaid";
-            $order->billing_customer_name = $this->name ?? $this->user->name;
-            $order->billing_customer_phone = $this->phone ?? $this->user->phone;
-            $order->billing_customer_email = $this->email ?? $this->user->email;
-            $order->payment_method = $this->selectedPaymentMethod;
-            $order->payment_status = 'pending';
-            $order->sub_total = $this->subtotal;
-            $order->total = $this->subtotal + $order->shipping_fee;
-            $order->save();
-
-            foreach ($this->cartItems as $cartItem) {
-                $orderItem = new OrderItem();
-                $orderItem->order_id = $order->id;
-                $orderItem->item_id = $cartItem->item_id;
-                $orderItem->quantity = $cartItem->quantity;
-                $orderItem->price = $cartItem->item->price;
-                $orderItem->amount = $cartItem->item->price * $cartItem->quantity;
-                $orderItem->save();
-            }
-
-            $orderPaymentStatus = new OrderPaymentStatus();
-            $orderPaymentStatus->order_id = $order->id;
-            $orderPaymentStatus->name = "pending";
-            $orderPaymentStatus->save();
-
-            $orderShippingStatus = new OrderShippingStatus();
-            $orderShippingStatus->order_id = $order->id;
-            $orderShippingStatus->name = "unpaid";
-            $orderShippingStatus->save();
-
-
-            DB::commit();
-            return $this->redirect("/orders/{$order->transaction_code}");
-        } catch (Throwable $t) {
-            DB::rollBack();
-            $this->errorAlert("An error occurred! {$t->getMessage()}");
         }
     }
 }

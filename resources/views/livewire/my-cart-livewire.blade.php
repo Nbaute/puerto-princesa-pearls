@@ -177,6 +177,23 @@
 
             </div>
 
+            @php
+                $shop = $cartItems[0]->item->shop;
+            @endphp
+
+            <div class="py-6 card">
+                <div class="py-6 border-b border-t">
+ 
+                    <div class="text-3xl text-center text-primary-950">{{ $shop->name }}</div>
+
+                    <div class="text-sm text-center text-gray-500">{{ $shop->username }}</div>
+
+
+                    <span class="font-bold">GCash #:</span> {{$shop->payment_instructions}}
+                    <br />
+                    <span class="font-bold">Social media link:</span> {{$shop->link}} 
+                </div>
+            </div>
 
             <div class="flex justify-end ">
                 <div class="flex flex-col items-stretch max-w-[400px] gap-3 mt-8 justify-stretch">
